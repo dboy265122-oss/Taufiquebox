@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Downloads folder (don't push movies to github lol)
+downloads/
+
+# Node
+node_modules/
+dist/
+.DS_Store
+*.local
+
+# Vite
+frontend/dist/
+frontend/.vite/
+
+# Env
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp

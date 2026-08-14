@@ -1,7 +1,7 @@
 from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from scraper import search_movies, get_trending, get_by_genre
-from downloader import download_movie, get_download_status
+from .scraper import search_movies, get_trending, get_by_genre
+from .downloader import download_movie, get_download_status
 import uvicorn
 
 app = FastAPI(title="TaufiquBox API")
@@ -13,22 +13,22 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/movies/search")
+@app.get("/api/movies/search")
 async def search(query: str):
     results = await search_movies(query)
     return {"results": results}
 
-@app.get("/movies/trending")
+@app.get("/api/movies/trending")
 async def trending():
     results = await get_trending()
     return {"results": results}
 
-@app.get("/movies/genre/{genre_id}")
+@app.get("/api/movies/genre/{genre_id}")
 async def by_genre(genre_id: int):
     results = await get_by_genre(genre_id)
     return {"results": results}
 
-@app.get("/movies/sources/{tmdb_id}")
+@app.get("/api/movies/sources/{tmdb_id}")
 async def sources(tmdb_id: str, title: str):
     return {
         "sources": [
@@ -50,12 +50,12 @@ async def sources(tmdb_id: str, title: str):
         ]
     }
 
-@app.post("/movies/download")
+@app.post("/api/movies/download")
 async def download(url: str, title: str, quality: str, background_tasks: BackgroundTasks):
     background_tasks.add_task(download_movie, url, title, quality)
     return {"status": "queued", "message": f"Downloading {title} at {quality}"}
 
-@app.get("/downloads/status")
+@app.get("/api/downloads/status")
 async def download_status():
     return get_download_status()
 
